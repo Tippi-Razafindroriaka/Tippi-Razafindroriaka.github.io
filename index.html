@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio personnel de Tippi RAZAFINDRORIAKA - Développeur Web et Programmeur">
+    <title>Portfolio - Tippi RAZAFINDRORIAKA</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- Navbar Bootstrap pour navigation fluide entre les sections -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#accueil">
+                <i class="bi bi-code-slash"></i> MonPortfolio
+            </a>
+            
+            <!-- Bouton hamburger pour mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Menu de navigation -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projets">Projets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#competences">Compétences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#realisations">Réalisations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section Accueil/Introduction -->
+    <!-- Hero section avec jumbotron style pour présentation captivante -->
+    <section id="accueil" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-3 fw-bold mb-3">Bonjour, je suis <span class="text-dark">Tippi RAZAFINDRORIAKA</span></h1>
+                    <p class="lead mb-4">Développeur Web Passionné | Programmeur | Créateur de Solutions Innovantes | Analyste en Cybersécurité</p>
+                    <p class="mb-4">Je crée des expériences web modernes et des applications performantes. Passionné par la technologie et l'innovation, je transforme les idées en réalité numérique.</p>
+                    <a href="#projets" class="btn btn-primary btn-lg me-2">Voir mes projets</a>
+                    <a href="#contact" class="btn btn-outline-light btn-lg">Me contacter</a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <!-- Photo de profil avec card Bootstrap -->
+                    <div class="profile-image-container">
+                        <img src="images/profile.jpg" alt="Photo de profil" class="profile-image img-fluid rounded-circle shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projets -->
+    <!-- Galerie de projets avec carousel Bootstrap pour présentation interactive -->
+    <section id="projets" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Mes Projets</h2>
+            
+            <div class="row g-4">
+                <!-- Projet 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm project-card">
+                        <!-- Carousel pour images du projet -->
+                        <div id="carousel1" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="images/projet1-1.jpg" class="d-block w-100" alt="École d'été - Économie Circulaire">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="images/projet1-2.jpg" class="d-block w-100" alt="Site web événementiel">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">École d'été - Économie Circulaire</h5>
+                            <p class="card-text">Site web événementiel pour l'École d'été 2025 de la Chaire UNESCO à l'Université de Moncton. Plateforme complète avec système d'inscription, galerie multimédia, programme détaillé et gestion des intervenants internationaux.</p>
+                            <div class="mb-3">
+                                <span class="badge bg-primary">HTML/CSS</span>
+                                <span class="badge bg-secondary">JavaScript</span>
+                                <span class="badge bg-success">Bootstrap</span>
+                                <span class="badge bg-warning">Responsive Design</span>
+                            </div>
+                            <a href="https://ecoledete-circulaire.ca/" target="_blank" class="btn btn-outline-primary">Voir le site</a>
+                            <span class="badge bg-info">✓ En ligne</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm project-card">
+                        <div id="carousel2" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="images/projet2-1.jpg" class="d-block w-100" alt="Le 63 - Restaurant universitaire">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="images/projet2-2.jpg" class="d-block w-100" alt="Projet collaboratif multisectoriel">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Le 63 - Restaurant Universitaire</h5>
+                            <p class="card-text">Projet collaboratif multisectoriel avec près de 100 étudiants (informatique, nutrition, administration, communication). Plateforme web pour la consultation des valeurs nutritives et allergènes des produits alimentaires du restaurant universitaire.</p>
+                            <div class="mb-3">
+                                <span class="badge bg-primary">JavaScript</span>
+                                <span class="badge bg-secondary">React</span>
+                                <span class="badge bg-success">Base de données</span>
+                                <span class="badge bg-info">Travail d'équipe</span>
+                            </div>
+                            <a href="https://www.le63.ca/" target="_blank" class="btn btn-outline-primary">Voir le site</a>
+                            <span class="badge bg-success">✓ En production</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm project-card">
+                        <div id="carousel3" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="images/projet3-1.jpg" class="d-block w-100" alt="HomeLab Cybersécurité">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="images/projet3-2.jpg" class="d-block w-100" alt="Infrastructure réseau">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel3" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel3" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">HomeLab Cybersécurité & Réseaux</h5>
+                            <p class="card-text">Laboratoire personnel pour l'apprentissage pratique de la cybersécurité et administration réseau. Infrastructure complète avec VLANs, pare-feu, IDS/IPS, virtualisation (Proxmox), et environnements de tests de pénétration (Kali Linux, pfSense).</p>
+                            <div class="mb-3">
+                                <span class="badge bg-danger">Cybersécurité</span>
+                                <span class="badge bg-primary">Réseaux</span>
+                                <span class="badge bg-secondary">Linux</span>
+                                <span class="badge bg-dark">Virtualisation</span>
+                            </div>
+                            <span class="badge bg-warning text-dark">🚧 En cours de développement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Compétences -->
+    <!-- Utilisation des badges et progress bars Bootstrap pour visualiser les compétences -->
+    <section id="competences" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Mes Compétences</h2>
+            
+            <div class="row">
+                <!-- Langages de programmation -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4"><i class="bi bi-code-square text-primary"></i> Langages de Programmation</h4>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>JavaScript</span>
+                                    <span>70%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Python</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>C++</span>
+                                    <span>90%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Assembly (x86/ARM)</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technologies Web -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4"><i class="bi bi-globe text-success"></i> Technologies Web</h4>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>HTML/CSS</span>
+                                    <span>95%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>React.js</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Node.js</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Bootstrap</span>
+                                    <span>90%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outils et Logiciels -->
+                <div class="col-lg-12 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4"><i class="bi bi-tools text-warning"></i> Outils & Logiciels</h4>
+                            <div class="text-center">
+                                <span class="badge bg-dark m-2 p-3">Git & GitHub</span>
+                                <span class="badge bg-primary m-2 p-3">VS Code</span>
+                                <span class="badge bg-success m-2 p-3">MongoDB</span>
+                                <span class="badge bg-info m-2 p-3">MySQL</span>
+                                <span class="badge bg-warning m-2 p-3">Figma</span>
+                                <span class="badge bg-danger m-2 p-3">Adobe Photoshop</span>
+                                <span class="badge bg-secondary m-2 p-3">Docker</span>
+                                <span class="badge bg-dark m-2 p-3">Linux</span>
+                                <span class="badge bg-primary m-2 p-3">Postman</span>
+                                <span class="badge bg-success m-2 p-3">Firebase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Réalisations et Récompenses -->
+    <!-- Utilisation des cards et alerts Bootstrap pour mettre en évidence les achievements -->
+    <section id="realisations" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Réalisations & Récompenses</h2>
+            
+            <div class="row g-4">
+                <!-- Réalisation 1 -->
+                <div class="col-md-6">
+                    <div class="alert alert-success shadow-sm" role="alert">
+                        <h4 class="alert-heading"><i class="bi bi-trophy-fill"></i> Certification Développeur Web Full Stack</h4>
+                        <p>Certification complète en développement web full stack couvrant le frontend et le backend.</p>
+                        <hr>
+                        <p class="mb-0"><strong>Institution:</strong> Mimo GmbH | <strong>Année:</strong> 2021</p>
+                    </div>
+                </div>
+
+                <!-- Réalisation 2 -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100 border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-award-fill text-primary"></i> 1er Prix - Journée Scientifique Lycéenne</h5>
+                            <p class="card-text">Premier prix remporté lors d'un concours scientifique interscolaire pour lycéens avec la programmation du jeu "Le compte est bon" en Python.</p>
+                            <p class="mb-0"><small class="text-muted">2022</small></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <!-- Formulaire de contact avec Form controls Bootstrap -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Contactez-moi</h2>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg">
+                        <div class="card-body p-4">
+                            <!-- Informations de contact -->
+                            <div class="text-center mb-4">
+                                <p class="lead">N'hésitez pas à me contacter pour discuter de projets ou d'opportunités de collaboration.</p>
+                                <div class="mb-3">
+                                    <a href="mailto:razafindroriaka.paul@gmail.com" class="btn btn-outline-primary me-2">
+                                        <i class="bi bi-envelope-fill"></i> razafindroriaka.paul@gmail.com
+                                    </a>
+                                </div>
+                                
+                                <!-- Liens réseaux sociaux -->
+                                <div class="social-links">
+                                    <a href="https://github.com/Tippi-Razafindroriaka" target="_blank" class="btn btn-dark btn-lg m-2">
+                                        <i class="bi bi-github"></i> GitHub
+                                    </a>
+                                    <a href="https://linkedin.com/in/tippi-razafindroriaka" target="_blank" class="btn btn-primary btn-lg m-2">
+                                        <i class="bi bi-linkedin"></i> LinkedIn
+                                    </a>
+                                    <a href="https://x.com/TippiRAZAFINDR2" target="_blank" class="btn btn-dark btn-lg m-2">
+                                        <i class="bi bi-twitter-x"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- Formulaire de contact avec validation Bootstrap -->
+                            <form id="contactForm" class="needs-validation" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">Prénom</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                        <div class="invalid-feedback">
+                                            Veuillez entrer votre prénom.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Nom</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                        <div class="invalid-feedback">
+                                            Veuillez entrer votre nom.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                        <div class="invalid-feedback">
+                                            Veuillez entrer une adresse email valide.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label">Sujet</label>
+                                        <input type="text" class="form-control" id="subject" required>
+                                        <div class="invalid-feedback">
+                                            Veuillez entrer un sujet.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Message</label>
+                                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Veuillez entrer votre message.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <button class="btn btn-primary btn-lg w-100" type="submit">
+                                            <i class="bi bi-send-fill"></i> Envoyer le message
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-2">&copy; 2025 Tippi Razafindroriaka. Tous droits réservés.</p>
+            <p class="mb-0">
+                <small>Créé en utilisant HTML, CSS et Bootstrap</small>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle avec Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>

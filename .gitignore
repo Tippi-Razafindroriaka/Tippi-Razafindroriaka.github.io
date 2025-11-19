@@ -1,0 +1,40 @@
+# Fichiers à ignorer pour Git
+
+# Fichiers système (Windows/Mac)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Config éditeur de code
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dépendances Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+dist/
+build/
+
+# Fichiers temporaires
+*.log
+*.tmp
+temp/
+
+# Backups
+*.bak
+*.backup
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache/
