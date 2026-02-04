@@ -124,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Exécute aussi au chargement initial
     animateProgressBars();
     
-    //  Validation du formulaire de contact 
-    // Gère la validation du formulaire avec Bootstrap
+    //  Validation du formulaire de contact avec EmailJS 
+    // Gère la validation et l'envoi du formulaire via EmailJS
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
@@ -135,13 +135,45 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Vérifie la validité du formulaire
             if (contactForm.checkValidity()) {
-                // Ici, vous pouvez ajouter la logique d'envoi du formulaire
-                // Par exemple, avec Fetch API pour envoyer à un backend
+                // Désactive le bouton pendant l'envoi
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi en cours...';
                 
-                // Pour la démo, on affiche juste une alerte de succès
-                showSuccessMessage();
-                contactForm.reset();
-                contactForm.classList.remove('was-validated');
+                // Configuration EmailJS
+                // Remplacez ces valeurs par les vôtres depuis https://dashboard.emailjs.com/
+                const serviceID = 'service_c5eeqa9';  // Ex: 'service_abc123'
+                const templateID = 'template_b5qgohu'; // Ex: 'template_xyz789'
+                
+                // Prépare les données du formulaire
+                const templateParams = {
+                    from_name: contactForm.querySelector('#firstName').value + ' ' + contactForm.querySelector('#lastName').value,
+                    from_email: contactForm.querySelector('#email').value,
+                    subject: contactForm.querySelector('#subject').value,
+                    message: contactForm.querySelector('#message').value,
+                    to_name: 'Tippi' // Votre nom
+                };
+                
+                // Envoie l'email via EmailJS
+                emailjs.send(serviceID, templateID, templateParams)
+                    .then(function(response) {
+                        console.log('Email envoyé avec succès!', response.status, response.text);
+                        showSuccessMessage();
+                        contactForm.reset();
+                        contactForm.classList.remove('was-validated');
+                        
+                        // Réactive le bouton
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                    }, function(error) {
+                        console.error('Erreur lors de l\'envoi:', error);
+                        showErrorMessage(error);
+                        
+                        // Réactive le bouton
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                    });
             } else {
                 // Affiche les messages d'erreur de validation
                 contactForm.classList.add('was-validated');
@@ -176,6 +208,35 @@ document.addEventListener('DOMContentLoaded', function() {
         toast.show();
         
         // Supprime le toast du DOM après disparition
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.remove();
+        });
+    }
+    
+    // Fonction pour afficher un message d'erreur
+    function showErrorMessage(error) {
+        // Crée un toast Bootstrap pour le message d'erreur
+        const toastHTML = `
+            <div class="toast align-items-center text-white bg-danger border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 9999;">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Erreur lors de l'envoi. Veuillez réessayer ou me contacter directement par email.
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', toastHTML);
+        
+        const toastElement = document.querySelector('.toast:last-child');
+        const toast = new bootstrap.Toast(toastElement, {
+            autohide: true,
+            delay: 7000
+        });
+        toast.show();
+        
         toastElement.addEventListener('hidden.bs.toast', () => {
             toastElement.remove();
         });
