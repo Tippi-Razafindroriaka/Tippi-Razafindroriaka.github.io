@@ -93,7 +93,7 @@
                 <p>
                     <strong style="color: var(--accent-green);">TL;DR :</strong>
                     Deux vulnérabilités enchaînées un générateur de tokens basé sur <code>mt_rand()</code> PHP
-                    dont le seed est bruteforçable, puis une Padding Oracle Attack sur AES-CBC —
+                    dont le seed est bruteforçable, puis une Padding Oracle Attack sur AES-CBC
                     aboutissent à une exécution de commandes arbitraires sur le serveur cible.
                 </p>
 
@@ -151,11 +151,11 @@ $invite_code = base64_encode($random);</code></pre>
                     <code>mt_rand()</code> est un générateur congruentiel linéaire le même seed produit toujours
                     le même résultat. Il est cryptographiquement inapproprié pour générer des tokens d'authentification.
                 </blockquote>
-git
+
                 <h2>Padding Oracle Attack sur AES-CBC</h2>
                 <p>
                     Une fois authentifié, le dashboard transmet un paramètre chiffré via l'URL. Lorsqu'une valeur
-                    corrompue est soumise, l'application retourne un message d'erreur de padding distinct —
+                    corrompue est soumise, l'application retourne un message d'erreur de padding distinct
                     condition nécessaire et suffisante pour une Padding Oracle Attack.
                 </p>
                 <p>
