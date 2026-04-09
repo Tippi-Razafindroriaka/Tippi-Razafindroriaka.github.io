@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Exploitation d'un système d'authentification par invite codes et Padding Oracle Attack — Tippi RAZAFINDRORIAKA">
+    <title>Invite Codes &amp; Padding Oracle Attack — Tippi RAZAFINDRORIAKA</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-code-slash"></i> MonPortfolio
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#projets">Projets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#competences">Compétences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#realisations">Réalisations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="research.html">Research</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-page-header">
+        <div class="container">
+            <a href="research.html" class="back-link d-inline-block mb-4">research</a>
+
+            <!-- ════════════════════════════════════════════════
+                 MODIFIEZ : titre, date, tags, temps de lecture
+                 ════════════════════════════════════════════════ -->
+            <h1 style="font-family: var(--font-mono); font-size: clamp(1.2rem, 2.8vw, 1.75rem); color: var(--text-primary); line-height: 1.4;">
+                Exploitation d'un système d'authentification<br>
+                par invite codes <span style="color: var(--accent-green);">&amp;</span> Padding Oracle Attack
+            </h1>
+
+            <div class="article-meta mt-3">
+                <span><i class="bi bi-calendar3"></i> 09 Apr 2026</span>
+                <span class="sep">·</span>
+                <span><i class="bi bi-clock"></i> 8 min read</span>
+                <span class="sep">·</span>
+                <span>Tippi RAZAFINDRORIAKA</span>
+            </div>
+
+            <div class="article-tags mt-3">
+                <span class="tag">#crypto</span>
+                <span class="tag">#web</span>
+                <span class="tag">#rce</span>
+                <span class="tag">#aes-cbc</span>
+                <span class="tag">#prng</span>
+                <span class="tag">#ctf</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Article Body -->
+    <main style="background-color: var(--bg-primary);">
+        <div class="container">
+            <article class="article-content">
+
+                <p>
+                    <strong style="color: var(--accent-green);">TL;DR :</strong>
+                    Deux vulnérabilités enchaînées — un générateur de tokens basé sur <code>mt_rand()</code> PHP
+                    dont le seed est bruteforçable, puis une Padding Oracle Attack sur AES-CBC —
+                    aboutissent à une exécution de commandes arbitraires sur le serveur cible.
+                </p>
+
+                <h2>Reconnaissance</h2>
+                <p>
+                    Un scan de ports complet révèle un serveur Apache/PHP tournant sur un port non standard.
+                    L'énumération des répertoires expose plusieurs endpoints intéressants :
+                </p>
+                <ul>
+                    <li>Une documentation API protégée par mot de passe</li>
+                    <li>Un dossier de logs accessible publiquement</li>
+                    <li>Un dashboard nécessitant une authentification</li>
+                </ul>
+
+                <h2>Extraction d'informations sensibles</h2>
+                <p>
+                    Les fichiers de logs exposés publiquement contiennent des traces d'activité incluant
+                    un token d'authentification encodé en base64. Le décodage révèle une valeur numérique
+                    correspondant au résultat d'un générateur de nombres pseudo-aléatoires.
+                </p>
+
+                <h2>Déobfuscation de code JavaScript</h2>
+                <p>
+                    Le fichier JavaScript lié à la documentation API utilise une technique d'obfuscation
+                    par réordonnancement de tableau avec des index hexadécimaux. L'exécution directe
+                    du code dans un environnement Node.js suffit à extraire les valeurs en clair,
+                    notamment le mot de passe donnant accès à la documentation API.
+                </p>
+                <pre><code>$ node obfuscated.js
+# Output : mot de passe en clair récupéré</code></pre>
+
+                <h2>Reverse engineering de l'algorithme de génération de tokens</h2>
+                <p>
+                    La documentation API expose le code source de l'algorithme de génération d'invite codes :
+                </p>
+                <pre><code class="language-php">function calculate_seed_value($email, $constant_value) {
+    $email_length = strlen($email);
+    $email_hex    = hexdec(substr($email, 0, 8));
+    $seed_value   = hexdec($email_length + $constant_value + $email_hex);
+    return $seed_value;
+}
+
+mt_srand($seed_value);
+$random      = mt_rand();
+$invite_code = base64_encode($random);</code></pre>
+                <p>
+                    La vulnérabilité réside dans l'utilisation de <code>mt_rand()</code> avec un seed déterministe
+                    calculé depuis des paramètres connus (longueur et contenu de l'email).
+                    Connaissant un output de <code>mt_rand()</code> depuis les logs, il est possible de retrouver
+                    le seed exact par bruteforce, puis d'en déduire la constante secrète utilisée par l'application.
+                    Une fois la constante connue, n'importe quel invite code peut être forgé pour n'importe quelle
+                    adresse email enregistrée.
+                </p>
+                <blockquote>
+                    <code>mt_rand()</code> est un générateur congruentiel linéaire — le même seed produit toujours
+                    le même résultat. Il est cryptographiquement inapproprié pour générer des tokens d'authentification.
+                </blockquote>
+
+                <h2>Padding Oracle Attack sur AES-CBC</h2>
+                <p>
+                    Une fois authentifié, le dashboard transmet un paramètre chiffré via l'URL. Lorsqu'une valeur
+                    corrompue est soumise, l'application retourne un message d'erreur de padding distinct —
+                    condition nécessaire et suffisante pour une Padding Oracle Attack.
+                </p>
+                <p>
+                    En mode CBC (<em>Cipher Block Chaining</em>), le déchiffrement de chaque bloc dépend du bloc chiffré
+                    précédent (le vecteur d'initialisation pour le premier bloc). En manipulant ce bloc précédent
+                    octet par octet et en observant si le padding est valide, il est possible de déduire les octets
+                    intermédiaires, puis de reconstruire le plaintext ou de forger n'importe quel ciphertext.
+                </p>
+                <pre><code># padbuster automatise le déchiffrement
+$ padbuster "http://target/dashboard?param=CIPHERTEXT" CIPHERTEXT 8 -encoding 0
+
+# Résultat : le paramètre contient une commande shell
+# Plaintext déchiffré : date +%Y
+
+# Forge du ciphertext exécutant une commande arbitraire
+$ padbuster "http://target/dashboard?param=CIPHERTEXT" CIPHERTEXT 8 \
+    -encoding 0 -plaintext "cat /home/ubuntu/flag.txt"</code></pre>
+                <p>
+                    Le déchiffrement révèle que le paramètre contient une commande shell (<code>date +%Y</code>)
+                    exécutée côté serveur. En forgeant le ciphertext correspondant à
+                    <code>cat /home/ubuntu/flag.txt</code>, on obtient l'exécution arbitraire de commandes.
+                </p>
+
+                <h2>Recommandations de remédiation</h2>
+                <p><strong style="color: var(--text-primary);">Génération de tokens</strong></p>
+                <ul>
+                    <li>
+                        Remplacer <code>mt_rand()</code> par <code>random_bytes()</code> ou
+                        <code>openssl_random_pseudo_bytes()</code> — ces fonctions produisent de l'aléatoire
+                        cryptographiquement sûr.
+                    </li>
+                    <li>Ne jamais exposer l'algorithme de génération dans une documentation publique.</li>
+                </ul>
+                <p><strong style="color: var(--text-primary);">Chiffrement AES-CBC</strong></p>
+                <ul>
+                    <li>
+                        Utiliser un mode authentifié comme <strong>AES-GCM</strong> qui garantit à la fois la
+                        confidentialité et l'intégrité — toute modification du ciphertext invalide le message
+                        sans révéler d'information sur le padding.
+                    </li>
+                    <li>Ne jamais exécuter le contenu d'un paramètre déchiffré comme une commande shell.</li>
+                </ul>
+
+                <hr>
+
+                <p style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);">
+                    Publié le <span style="color: var(--text-secondary);">09 Apr 2026</span>
+                    par <a href="index.html">Tippi RAZAFINDRORIAKA</a>.
+                    Les opinions exprimées sont personnelles.<br>
+                    <span style="color: var(--text-muted);">Concepts couverts :</span>
+                    Sécurité des PRNG · mt_rand PHP · AES-CBC · Padding Oracle Attack ·
+                    Déobfuscation JavaScript · Énumération web
+                </p>
+
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-2">&copy; 2026 Tippi Razafindroriaka. Tous droits réservés.</p>
+            <p class="mb-0">
+                <small>
+                    <a href="research.html" style="color: var(--text-muted); text-decoration: none;">← Retour aux articles</a>
+                    &nbsp;·&nbsp;
+                    <a href="index.html" style="color: var(--text-muted); text-decoration: none;">Portfolio</a>
+                </small>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            navbar.style.boxShadow = window.pageYOffset > 50
+                ? '0 4px 20px rgba(0,0,0,0.5)'
+                : 'none';
+        });
+    </script>
+</body>
+</html>

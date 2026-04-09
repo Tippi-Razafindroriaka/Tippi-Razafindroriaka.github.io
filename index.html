@@ -47,6 +47,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research.html">Research</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -55,13 +58,18 @@
     <!-- Section Accueil/Introduction -->
     <!-- Hero section avec jumbotron style pour présentation captivante -->
     <section id="accueil" class="hero-section">
+        <canvas id="particles-canvas" aria-hidden="true"></canvas>
         <div class="container">
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-3 fw-bold mb-3">Bonjour, je suis <span class="text-dark">Tippi RAZAFINDRORIAKA</span></h1>
+                    <div class="terminal-lead mb-3">
+                        <span class="prompt">$ whoami</span><span id="typed-role"></span><span class="terminal-cursor"></span>
+                    </div>
+                    <h1 class="display-3 fw-bold mb-3">Bonjour, je suis <span class="text-dark glitch" data-text="Tippi RAZAFINDRORIAKA">Tippi RAZAFINDRORIAKA</span></h1>
                     <p class="lead mb-4">Développeur Web Passionné | Programmeur | Créateur de Solutions Innovantes | Analyste en Cybersécurité</p>
                     <p class="mb-4">Je crée des expériences web modernes et des applications performantes. Passionné par la technologie et l'innovation, je transforme les idées en réalité numérique.</p>
-                    <a href="#projets" class="btn btn-primary btn-lg me-2">Voir mes projets</a>
+                    <a href="#research" class="btn btn-primary btn-lg me-2">Mes recherches</a>
+                    <a href="#projets" class="btn btn-outline-light btn-lg me-2">Mes projets</a>
                     <a href="#contact" class="btn btn-outline-light btn-lg">Me contacter</a>
                 </div>
                 <div class="col-lg-6 text-center">
@@ -70,6 +78,44 @@
                         <img src="images/profile.jpg" alt="Photo de profil" class="profile-image img-fluid rounded-circle shadow-lg">
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Research -->
+    <section id="research" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <h2 class="text-center">Research <span style="color: var(--accent-green);">&amp;</span> Writing</h2>
+
+            <!-- Article : mt_rand / Padding Oracle -->
+            <a href="article-placeholder.html" class="article-card">
+                <div class="article-meta">
+                    <span><i class="bi bi-calendar3"></i> 09 Apr 2026</span>
+                    <span class="sep">·</span>
+                    <span><i class="bi bi-clock"></i> 8 min read</span>
+                </div>
+                <div class="article-title">
+                    Exploitation d'un système d'authentification par invite codes &amp; Padding Oracle Attack
+                </div>
+                <div class="article-description">
+                    Deux vulnérabilités enchaînées : un algorithme de génération de tokens prévisible basé sur
+                    <code style="font-size:0.8em;">mt_rand()</code> PHP, puis une Padding Oracle Attack sur AES-CBC menant à une RCE.
+                </div>
+                <div class="article-tags">
+                    <span class="tag">#crypto</span>
+                    <span class="tag">#web</span>
+                    <span class="tag">#rce</span>
+                    <span class="tag">#aes-cbc</span>
+                    <span class="tag">#prng</span>
+                    <span class="tag">#ctf</span>
+                </div>
+            </a>
+
+            <!-- Lien vers tous les articles -->
+            <div class="text-center mt-4">
+                <a href="research.html" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-right-short"></i> Voir tous les articles
+                </a>
             </div>
         </div>
     </section>

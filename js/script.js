@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Met à jour la classe active sur les liens de navigation
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').slice(1) === current) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#') && href.slice(1) === current) {
                 link.classList.add('active');
             }
         });
@@ -282,24 +283,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    //  Effet de typing pour le titre 
-    const typingText = document.querySelector('.hero-section h1 span');
-    if (typingText) {
-        const originalText = typingText.textContent;
-        typingText.textContent = '';
-        let charIndex = 0;
-        
-        function typeText() {
-            if (charIndex < originalText.length) {
-                typingText.textContent += originalText.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeText, 100);
-            }
-        }
-        
-        // Démarre l'effet après un court délai
-        setTimeout(typeText, 500);
-    }
+    //  Terminal typing effect for hero role label 
+    initTyping();
+    initParticles();
     
     //  Lazy loading des images 
     // Charge les images de manière optimisée
@@ -344,9 +330,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // inutile mais bon je voulais tester un truc
-    console.log('%c Bienvenue sur mon portfolio!', 'color: #667eea; font-size: 20px; font-weight: bold;');
-    console.log('%cDéveloppé utilisant HTML, CSS, Bootstrap et JavaScript', 'color: #764ba2; font-size: 14px;');
+    console.log('%c[+] Bienvenue sur mon portfolio!', 'color: #00ff41; font-family: monospace; font-size: 14px;');
+    console.log('%c[*] Tippi RAZAFINDRORIAKA — Security Researcher & Developer', 'color: #58a6ff; font-family: monospace;');
     
 });
 
@@ -361,9 +346,125 @@ if (isMobile()) {
     document.documentElement.style.scrollBehavior = 'auto';
 }
 
-//  Gestion des erreurs d'images 
+// ── Gestion des erreurs d'images ──────────────────────────────
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function() {
-        this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%23cccccc"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23666666"%3EImage non disponible%3C/text%3E%3C/svg%3E';
+        this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%230d1117"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="14" fill="%2300ff41"%3E[ image non disponible ]%3C/text%3E%3C/svg%3E';
     });
 });
+
+// ── Terminal typing effect ─────────────────────────────────────
+function initTyping() {
+    const el = document.getElementById('typed-role');
+    if (!el) return;
+
+    const roles = [
+        'Security_Researcher',
+        'Web_Developer',
+        'Penetration_Tester',
+        'CTF_Player',
+        'Network_Analyst'
+    ];
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function tick() {
+        const current = roles[roleIndex];
+        if (!deleting) {
+            el.textContent = current.slice(0, charIndex + 1);
+            charIndex++;
+            if (charIndex === current.length) {
+                deleting = true;
+                setTimeout(tick, 2200);
+                return;
+            }
+        } else {
+            el.textContent = current.slice(0, charIndex - 1);
+            charIndex--;
+            if (charIndex === 0) {
+                deleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+            }
+        }
+        setTimeout(tick, deleting ? 45 : 90);
+    }
+    setTimeout(tick, 600);
+}
+
+// ── Particle network canvas ────────────────────────────────────
+function initParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const section = canvas.parentElement;
+    const COUNT = window.innerWidth < 768 ? 30 : 60;
+    const MAX_DIST = 130;
+    let particles = [];
+    let animFrame;
+
+    function resize() {
+        canvas.width  = section.offsetWidth;
+        canvas.height = section.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', () => { resize(); });
+
+    for (let i = 0; i < COUNT; i++) {
+        particles.push({
+            x:  Math.random() * canvas.width,
+            y:  Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            r:  Math.random() * 1.5 + 0.8
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx   = particles[i].x - particles[j].x;
+                const dy   = particles[i].y - particles[j].y;
+                const dist = Math.hypot(dx, dy);
+                if (dist < MAX_DIST) {
+                    const alpha = (1 - dist / MAX_DIST) * 0.35;
+                    ctx.strokeStyle = `rgba(0,255,65,${alpha})`;
+                    ctx.lineWidth   = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        particles.forEach(p => {
+            ctx.fillStyle = 'rgba(0,255,65,0.65)';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+            if (p.y < 0 || p.y > canvas.height)  p.vy *= -1;
+        });
+
+        animFrame = requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    // Pause particles when tab is hidden to save resources
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            cancelAnimationFrame(animFrame);
+        } else {
+            draw();
+        }
+    });
+}
